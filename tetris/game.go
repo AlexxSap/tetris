@@ -1,13 +1,17 @@
 package tetris
 
 import (
+	canvas "github.com/AlexxSap/SiDCo"
 	"github.com/AlexxSap/matrix"
 )
 
 type Game struct {
-	rowCount    int
-	columnCount int
-	field       *matrix.Matrix[int]
+	rowCount       int
+	columnCount    int
+	field          *matrix.Matrix[int]
+	blocksField    canvas.Canvas
+	nextBlockField canvas.Canvas
+	infoField      canvas.Canvas
 }
 
 func newGame() *Game {
