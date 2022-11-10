@@ -37,8 +37,8 @@ func (gm *Game) repaint() {
 	for {
 		/// перерисовывать только текущий блок
 		gm.repaintCurrentBlock()
-		time.Sleep(time.Duration(repaintTime/3) * time.Millisecond)
 		if gm.needRepaintAllBlocks() {
+			time.Sleep(time.Duration(repaintTime/3) * time.Millisecond)
 			gm.repaintAllBlocks()
 		}
 

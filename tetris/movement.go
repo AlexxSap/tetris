@@ -5,3 +5,7 @@ func (gm *Game) move() {
 	// есть блок - двигаем
 	// некуда двигать - значит упал - проверяем
 }
+
+func (gm *Game) needRepaintAllBlocks() bool {
+
+}
