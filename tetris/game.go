@@ -3,6 +3,7 @@ package tetris
 import (
 	canvas "github.com/AlexxSap/SiDCo"
 	"github.com/AlexxSap/matrix"
+	"github.com/eiannone/keyboard"
 )
 
 type Game struct {
@@ -12,6 +13,7 @@ type Game struct {
 	blocksField    canvas.Canvas
 	nextBlockField canvas.Canvas
 	infoField      canvas.Canvas
+	isOver         bool
 }
 
 func newGame() *Game {
@@ -35,15 +37,23 @@ func newGame() *Game {
 		blocksField:    blocksField,
 		nextBlockField: nextBlockField,
 		infoField:      infoField,
+		isOver:         false,
 	}
 }
 
 func Start() {
+	if err := keyboard.Open(); err != nil {
+		panic(err)
+	}
+	defer func() {
+		_ = keyboard.Close()
+	}()
+
 	game := newGame()
 
 	canvas.ClearScreen()
 	game.drawBoxes()
 
-	// go game.repaint()
-	// go game.move()
+	go game.repaint()
+	go game.move()
 }
