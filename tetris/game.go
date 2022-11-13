@@ -1,8 +1,6 @@
 package tetris
 
 import (
-	"math/rand"
-
 	canvas "github.com/AlexxSap/SiDCo"
 	"github.com/AlexxSap/matrix"
 	"github.com/eiannone/keyboard"
@@ -19,8 +17,6 @@ type Game struct {
 	isOver         bool
 	currentStep    int
 }
-
-var blocks map[int][]canvas.Point
 
 func newGame() *Game {
 	createBlocks()
@@ -50,21 +46,15 @@ func newGame() *Game {
 	}
 }
 
-func createBlocks() {
-	blocks = map[int][]canvas.Point{
-		0: []canvas.Point{{0, 0}, {0, 1}, {1, 1}, {1, 2}},
-		1: []canvas.Point{{0, 0}, {0, 1}, {1, 0}, {1, 1}},
+func (gm *Game) addBlock(block Block) {
+	for _, p := range block.p {
+		gm.field.Set(p.Line, p.Column, gm.currentStep)
 	}
 }
 
-func (gm *Game) genRandomBlock() {
-	r := rand.Intn(len(blocks))
-	gm.addNewBlock(blocks[r])
-}
-
-func (gm *Game) addNewBlock(points []canvas.Point) {
-	for _, p := range points {
-		gm.field.Set(p.Line, p.Column, gm.currentStep)
+func (gm *Game) remBlock(block Block) {
+	for _, p := range block.p {
+		gm.field.Set(p.Line, p.Column, 0)
 	}
 }
 
