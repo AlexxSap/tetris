@@ -11,6 +11,7 @@ import (
 type Game struct {
 	rowCount       int
 	columnCount    int
+	block          Block
 	field          *matrix.Matrix[int]
 	blocksField    canvas.Canvas
 	nextBlockField canvas.Canvas
