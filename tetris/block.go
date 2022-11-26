@@ -22,6 +22,7 @@ func NewBlock(points []Point) Block {
 
 var blocks map[int]Block
 
+/// TODO добавить еще блоки
 func createBlocks() {
 	colOffset := 5 /// TODO заменить это, чтобы блоки было посреди
 	blocks = map[int]Block{

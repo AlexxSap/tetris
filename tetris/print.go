@@ -8,6 +8,8 @@ import (
 // 	canvas "github.com/AlexxSap/SiDCo"
 // )
 
+/// TODO добавить выбор цвета по значению блока
+
 const (
 	block = "\u001b[31;1m\u2593" /// TODO \u001b[31;1m - цвет
 )
