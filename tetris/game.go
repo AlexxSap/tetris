@@ -52,12 +52,6 @@ func (gm *Game) addBlock(block Block) {
 	}
 }
 
-func (gm *Game) remBlock(block Block) {
-	for _, p := range block.p {
-		gm.field.Set(p.Line, p.Column, 0)
-	}
-}
-
 func Start() {
 	if err := keyboard.Open(); err != nil {
 		panic(err)
@@ -66,11 +60,19 @@ func Start() {
 		_ = keyboard.Close()
 	}()
 
+	var gameOverChanel chan bool = make(chan bool)
+
 	game := newGame()
 
 	canvas.ClearScreen()
 	game.drawBoxes()
 
+	game.genRandomBlock()
+
 	go game.repaint()
-	go game.move()
+	go game.move(gameOverChanel)
+
+	<-gameOverChanel
+	game.isOver = true
+
 }
