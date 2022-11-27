@@ -2,16 +2,16 @@ package tetris
 
 import (
 	"time"
+
+	canvas "github.com/AlexxSap/SiDCo"
 )
 
-// import (
-// 	canvas "github.com/AlexxSap/SiDCo"
-// )
-
-/// TODO добавить выбор цвета по значению блока
+func colorByValue(value int) canvas.Color {
+	return canvas.Color(value%8 + 1)
+}
 
 const (
-	block = "\u001b[31;1m\u2593" /// TODO \u001b[31;1m - цвет
+	block = "\u2593"
 )
 
 func (gm *Game) drawBoxes() {
@@ -22,9 +22,8 @@ func (gm *Game) drawBoxes() {
 
 func (gm *Game) repaintCurrentBlock() {
 	points := gm.block.canvasPoints()
-	// fmt.Println(points)
 	if len(points) != 0 {
-		gm.blocksField.DrawPath(block, points)
+		gm.blocksField.DrawPath(colorByValue(gm.currentStep).String()+block, points)
 	}
 }
 
