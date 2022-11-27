@@ -20,10 +20,20 @@ func (gm *Game) drawBoxes() {
 	gm.infoField.DrawBoxWithTitle("INFO")
 }
 
-func (gm *Game) repaintCurrentBlock() {
+func (gm *Game) clearCurrentBlock() {
+	/// TODO стирается верхушка поля
 	points := gm.block.canvasPoints()
 	if len(points) != 0 {
-		gm.blocksField.DrawPath(colorByValue(gm.currentStep).String()+block, points)
+		gm.blocksField.DrawPath(" ", points)
+	}
+}
+
+func (gm *Game) drawCurrentBlock() {
+	points := gm.block.canvasPoints()
+	if len(points) != 0 {
+		gm.blocksField.SetColor(colorByValue(gm.currentStep))
+		gm.blocksField.DrawPath(block, points)
+		gm.blocksField.SetDefaultColor()
 	}
 }
 
@@ -43,10 +53,6 @@ func (gm *Game) repaint() {
 
 	for {
 
-		/// TODO delele this
-		gm.blocksField.ClearInner()
-		/// перерисовывать только текущий блок
-		gm.repaintCurrentBlock()
 		if gm.needRepaintAllBlocks() {
 			time.Sleep(time.Duration(repaintTime/3) * time.Millisecond)
 			gm.repaintAllBlocks()

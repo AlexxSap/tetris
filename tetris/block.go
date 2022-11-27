@@ -25,7 +25,6 @@ func NewBlock(points []Point) Block {
 
 var blocks map[int]Block
 
-/// TODO добавить еще блоки
 func createBlocks(width int) {
 	offset := width / 2
 	blocks = map[int]Block{

@@ -5,7 +5,9 @@ import "time"
 func (gm *Game) move(gameOverChanel chan<- bool) {
 
 	for i := 0; i < 3; i++ {
+		gm.clearCurrentBlock()
 		gm.block.moveDown()
+		gm.drawCurrentBlock()
 		time.Sleep(1 * time.Second)
 	}
 	gameOverChanel <- true
