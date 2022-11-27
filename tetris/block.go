@@ -1,6 +1,9 @@
 package tetris
 
 import (
+	"math/rand"
+	"time"
+
 	canvas "github.com/AlexxSap/SiDCo"
 )
 
@@ -23,18 +26,22 @@ func NewBlock(points []Point) Block {
 var blocks map[int]Block
 
 /// TODO добавить еще блоки
-func createBlocks() {
-	colOffset := 5 /// TODO заменить это, чтобы блоки было посреди
+func createBlocks(width int) {
+	offset := width / 2
 	blocks = map[int]Block{
-		0: NewBlock([]Point{{1, colOffset + 0}, {1, colOffset + 1}, {2, colOffset + 1}, {2, colOffset + 2}}),
-		1: NewBlock([]Point{{1, colOffset + 0}, {1, colOffset + 1}, {2, colOffset + 0}, {2, colOffset + 1}}),
+		0: NewBlock([]Point{{0, offset + 0}, {0, offset + 1}, {1, offset + 1}, {1, offset + 2}}),
+		1: NewBlock([]Point{{0, offset + 0}, {0, offset + 1}, {1, offset + 0}, {1, offset + 1}}),
+		2: NewBlock([]Point{{0, offset + 0}, {1, offset + 0}, {2, offset + 0}, {3, offset + 0}}),
+		3: NewBlock([]Point{{0, offset + 0}, {1, offset + 0}, {2, offset + 0}, {2, offset + 1}}),
+		4: NewBlock([]Point{{0, offset + 1}, {1, offset + 1}, {1, offset + 0}, {2, offset + 1}}),
+		5: NewBlock([]Point{{0, offset + 1}, {1, offset + 0}, {1, offset + 1}, {2, offset + 1}}),
+		6: NewBlock([]Point{{0, offset + 1}, {1, offset + 1}, {2, offset + 1}, {2, offset + 0}}),
 	}
 }
 
 func (gm *Game) genRandomBlock() {
-	// i := rand.Intn(len(blocks))
-	i := 0
-	gm.block = blocks[i]
+	rand.Seed(int64(time.Now().Nanosecond()))
+	gm.block = blocks[rand.Intn(len(blocks))]
 }
 
 func (b *Block) moveDown() {

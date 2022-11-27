@@ -19,9 +19,10 @@ type Game struct {
 }
 
 func newGame() *Game {
-	createBlocks()
 	rowCount := 15
 	columnCount := 10
+
+	createBlocks(columnCount)
 
 	m, err := matrix.NewMatrix(make([]int, rowCount*columnCount),
 		rowCount,
