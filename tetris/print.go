@@ -12,6 +12,7 @@ func colorByValue(value int) canvas.Color {
 
 const (
 	block = "\u2593"
+	empty = " "
 )
 
 func (gm *Game) drawBoxes() {
@@ -24,7 +25,7 @@ func (gm *Game) clearCurrentBlock() {
 	/// TODO стирается верхушка поля
 	points := gm.block.canvasPoints()
 	if len(points) != 0 {
-		gm.blocksField.DrawPath(" ", points)
+		gm.blocksField.DrawPath(empty, points)
 	}
 }
 

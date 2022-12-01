@@ -28,10 +28,10 @@ var blocks map[int]Block
 func createBlocks(width int) {
 	offset := width / 2
 	blocks = map[int]Block{
-		0: NewBlock([]Point{{0, offset + 0}, {0, offset + 1}, {1, offset + 1}, {1, offset + 2}}),
 		1: NewBlock([]Point{{0, offset + 0}, {0, offset + 1}, {1, offset + 0}, {1, offset + 1}}),
 		2: NewBlock([]Point{{0, offset + 0}, {1, offset + 0}, {2, offset + 0}, {3, offset + 0}}),
 		3: NewBlock([]Point{{0, offset + 0}, {1, offset + 0}, {2, offset + 0}, {2, offset + 1}}),
+		0: NewBlock([]Point{{0, offset + 0}, {0, offset + 1}, {1, offset + 1}, {1, offset + 2}}),
 		4: NewBlock([]Point{{0, offset + 1}, {1, offset + 1}, {1, offset + 0}, {2, offset + 1}}),
 		5: NewBlock([]Point{{0, offset + 1}, {1, offset + 0}, {1, offset + 1}, {2, offset + 1}}),
 		6: NewBlock([]Point{{0, offset + 1}, {1, offset + 1}, {2, offset + 1}, {2, offset + 0}}),
@@ -47,4 +47,8 @@ func (b *Block) moveDown() {
 	for i := 0; i < len(b.p); i++ {
 		b.p[i].Line++
 	}
+}
+
+func (b *Block) rotate() {
+
 }
