@@ -5,10 +5,15 @@ import (
 	"time"
 
 	canvas "github.com/AlexxSap/SiDCo"
+	"github.com/AlexxSap/matrix"
 )
 
 type Block struct {
 	p []Point
+}
+
+func (b *Block) iterator() *PointIterator {
+	return &PointIterator{b.p, 0}
 }
 
 func (b *Block) canvasPoints() []canvas.Point {
@@ -50,5 +55,17 @@ func (b *Block) moveDown() {
 }
 
 func (b *Block) rotate() {
+	m := matrix.NewSquareMatrixFromPoints(b.iterator(), 666)
+	m.Rotate()
 
+	points, err := m.Filtered(func(cell int) bool { return cell == 666 })
+	if err != nil {
+		panic(err)
+	}
+
+	p := make([]Point, 0, len(points))
+	for _, point := range points {
+		p = append(p, Point{point.Row, point.Column})
+	}
+	b.p = p
 }
