@@ -22,7 +22,7 @@ func newGame() *Game {
 	rowCount := 15
 	columnCount := 10
 
-	createBlocks(columnCount)
+	createBlocks()
 
 	m, err := matrix.NewMatrix(make([]int, rowCount*columnCount),
 		rowCount,

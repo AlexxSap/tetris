@@ -24,28 +24,35 @@ func (b *Block) canvasPoints() []canvas.Point {
 	return p
 }
 
+func (b *Block) moveRight(offset int) {
+	for i := 0; i < len(b.p); i++ {
+		b.p[i].Column += offset
+	}
+}
+
 func NewBlock(points []Point) Block {
 	return Block{p: points}
 }
 
 var blocks map[int]Block
 
-func createBlocks(width int) {
-	offset := width / 2
+func createBlocks() {
 	blocks = map[int]Block{
-		1: NewBlock([]Point{{0, offset + 0}, {0, offset + 1}, {1, offset + 0}, {1, offset + 1}}),
-		2: NewBlock([]Point{{0, offset + 0}, {1, offset + 0}, {2, offset + 0}, {3, offset + 0}}),
-		3: NewBlock([]Point{{0, offset + 0}, {1, offset + 0}, {2, offset + 0}, {2, offset + 1}}),
-		0: NewBlock([]Point{{0, offset + 0}, {0, offset + 1}, {1, offset + 1}, {1, offset + 2}}),
-		4: NewBlock([]Point{{0, offset + 1}, {1, offset + 1}, {1, offset + 0}, {2, offset + 1}}),
-		5: NewBlock([]Point{{0, offset + 1}, {1, offset + 0}, {1, offset + 1}, {2, offset + 1}}),
-		6: NewBlock([]Point{{0, offset + 1}, {1, offset + 1}, {2, offset + 1}, {2, offset + 0}}),
+		1: NewBlock([]Point{{0, 0}, {0, 1}, {1, 0}, {1, 1}}),
+		2: NewBlock([]Point{{0, 0}, {1, 0}, {2, 0}, {3, 0}}),
+		3: NewBlock([]Point{{0, 0}, {1, 0}, {2, 0}, {2, 1}}),
+		0: NewBlock([]Point{{0, 0}, {0, 1}, {1, 1}, {1, 2}}),
+		4: NewBlock([]Point{{0, 1}, {1, 1}, {1, 0}, {2, 1}}),
+		5: NewBlock([]Point{{0, 1}, {1, 0}, {1, 1}, {2, 1}}),
+		6: NewBlock([]Point{{0, 1}, {1, 1}, {2, 1}, {2, 0}}),
 	}
 }
 
 func (gm *Game) genRandomBlock() {
 	rand.Seed(int64(time.Now().Nanosecond()))
-	gm.block = blocks[rand.Intn(len(blocks))]
+	b := blocks[rand.Intn(len(blocks))]
+	b.moveRight(gm.columnCount / 2)
+	gm.block = b
 }
 
 func (b *Block) moveDown() {
