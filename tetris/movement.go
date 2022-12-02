@@ -4,10 +4,10 @@ import "time"
 
 func (gm *Game) move(gameOverChanel chan<- bool) {
 
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 5; i++ {
 		gm.clearCurrentBlock()
-		gm.block.moveDown()
-		//gm.block.rotate()
+		gm.block.moveDown(1)
+		gm.block.rotate()
 		gm.drawCurrentBlock()
 		time.Sleep(1 * time.Second)
 	}

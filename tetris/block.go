@@ -24,12 +24,6 @@ func (b *Block) canvasPoints() []canvas.Point {
 	return p
 }
 
-func (b *Block) moveRight(offset int) {
-	for i := 0; i < len(b.p); i++ {
-		b.p[i].Column += offset
-	}
-}
-
 func NewBlock(points []Point) Block {
 	return Block{p: points}
 }
@@ -55,13 +49,30 @@ func (gm *Game) genRandomBlock() {
 	gm.block = b
 }
 
-func (b *Block) moveDown() {
+func (b *Block) moveRight(offset int) {
 	for i := 0; i < len(b.p); i++ {
-		b.p[i].Line++
+		b.p[i].Column += offset
 	}
 }
 
+func (b *Block) moveDown(offset int) {
+	for i := 0; i < len(b.p); i++ {
+		b.p[i].Line += offset
+	}
+}
+
+func (b *Block) offsets() (int, int) {
+	col, row := b.p[0].Column, b.p[0].Line
+	for _, p := range b.p {
+		col, row = min(col, p.Column), min(row, p.Line)
+	}
+	return col, row
+}
+
 func (b *Block) rotate() {
+	x, y := b.offsets()
+	b.moveRight(-x)
+	b.moveDown(-y)
 	m := matrix.NewSquareMatrixFromPoints(b.iterator(), 666)
 	m.Rotate()
 
@@ -75,4 +86,7 @@ func (b *Block) rotate() {
 		p = append(p, Point{point.Row, point.Column})
 	}
 	b.p = p
+
+	b.moveRight(x)
+	b.moveDown(y)
 }
