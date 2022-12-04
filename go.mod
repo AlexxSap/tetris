@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/AlexxSap/SiDCo v1.1.0
-	github.com/AlexxSap/matrix v1.2.1
+	github.com/AlexxSap/matrix v1.2.2-0.20221204181741-ce574f89de3c
 	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
 )
 

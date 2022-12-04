@@ -73,7 +73,7 @@ func (b *Block) rotate() {
 	x, y := b.offsets()
 	b.moveRight(-x)
 	b.moveDown(-y)
-	m := matrix.NewSquareMatrixFromPoints(b.iterator(), 666)
+	m := matrix.NewMatrixFromPoints(b.iterator(), 666)
 	m.Rotate()
 
 	points, err := m.Filtered(func(cell int) bool { return cell == 666 })
