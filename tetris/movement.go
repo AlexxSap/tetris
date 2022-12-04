@@ -17,27 +17,33 @@ func (gm *Game) listenKeyboard() {
 			break
 		}
 
+		gm.clearCurrentBlock()
+
 		switch key {
 		case keyboard.KeyArrowDown:
-			gm.clearCurrentBlock()
 			/// TODO падение блока к остальным
-			// gm.block.moveDown(4)
-			gm.drawCurrentBlock()
+			gm.slideDown()
+			gm.addToTheBottom()
 		case keyboard.KeyArrowLeft:
-			gm.clearCurrentBlock()
 			gm.block.moveRight(-1)
-			gm.drawCurrentBlock()
 		case keyboard.KeyArrowRight:
-			gm.clearCurrentBlock()
 			gm.block.moveRight(1)
-			gm.drawCurrentBlock()
 		case keyboard.KeyArrowUp:
-			gm.clearCurrentBlock()
-			/// TODO блок смещается вправо
 			gm.block.rotate()
-			gm.drawCurrentBlock()
 		}
+		gm.drawCurrentBlock()
 	}
+}
+
+/// TODO добавить в матрицу удаление строк со здвигом
+
+func (gm *Game) addToTheBottom() {
+	/// TODO добавить тут задержки
+	gm.addCurrentBlockToTheBottom()
+	if rows := gm.rowsToDestroy(); len(rows) != 0 {
+		gm.destroyRows(rows)
+	}
+	gm.genRandomBlock()
 }
 
 func (gm *Game) move(gameOverChanel chan<- bool) {
@@ -46,11 +52,11 @@ func (gm *Game) move(gameOverChanel chan<- bool) {
 		gm.clearCurrentBlock()
 		gm.block.moveDown(1)
 		gm.drawCurrentBlock()
-		time.Sleep(1 * time.Second)
+		if gm.isCurrentBlockAtTheBottom() {
+			gm.addToTheBottom()
+		} else {
+			time.Sleep(1 * time.Second)
+		}
 	}
 	gameOverChanel <- true
-}
-
-func (gm *Game) needRepaintAllBlocks() bool {
-	return false
 }

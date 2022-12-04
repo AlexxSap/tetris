@@ -38,6 +38,10 @@ func (gm *Game) drawCurrentBlock() {
 	}
 }
 
+func (gm *Game) needRepaintAllBlocks() bool {
+	return false
+}
+
 func (gm *Game) repaintAllBlocks() {
 
 }
@@ -53,7 +57,6 @@ func (gm *Game) repaint() {
 	resetTiker()
 
 	for {
-
 		if gm.needRepaintAllBlocks() {
 			time.Sleep(time.Duration(repaintTime/3) * time.Millisecond)
 			gm.repaintAllBlocks()
