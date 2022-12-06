@@ -79,8 +79,14 @@ func (b *Block) offsets() (int, int) {
 
 func (b *Block) rotate() {
 	x, y := b.offsets()
-	/// TODO тут не понятно какое значение брать
-	b.moveRight(-x, 100)
+
+	moveRight := func(b *Block, val int) {
+		for i := 0; i < len(b.p); i++ {
+			b.p[i].Column += val
+		}
+	}
+
+	moveRight(b, -x)
 	b.moveDown(-y)
 	m := matrix.NewMatrixFromPoints(b.iterator(), 666)
 	m.Rotate()
@@ -96,6 +102,6 @@ func (b *Block) rotate() {
 	}
 	b.p = p
 
-	b.moveRight(x, 100)
+	moveRight(b, x)
 	b.moveDown(y)
 }
