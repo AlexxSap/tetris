@@ -45,11 +45,19 @@ func createBlocks() {
 func (gm *Game) genRandomBlock() {
 	rand.Seed(int64(time.Now().Nanosecond()))
 	b := blocks[rand.Intn(len(blocks))]
-	b.moveRight(gm.columnCount / 2)
+	b.moveRight(gm.columnCount/2, gm.columnCount)
 	gm.block = b
 }
 
-func (b *Block) moveRight(offset int) {
+/// TODO не понятно как контролить выход за поле, пока добавил костыль
+func (b *Block) moveRight(offset, columnCount int) {
+	for i := 0; i < len(b.p); i++ {
+		newVal := b.p[i].Column + offset
+		if newVal <= 0 || newVal > columnCount+1 {
+			return
+		}
+	}
+
 	for i := 0; i < len(b.p); i++ {
 		b.p[i].Column += offset
 	}
@@ -71,7 +79,8 @@ func (b *Block) offsets() (int, int) {
 
 func (b *Block) rotate() {
 	x, y := b.offsets()
-	b.moveRight(-x)
+	/// TODO тут не понятно какое значение брать
+	b.moveRight(-x, 100)
 	b.moveDown(-y)
 	m := matrix.NewMatrixFromPoints(b.iterator(), 666)
 	m.Rotate()
@@ -87,6 +96,6 @@ func (b *Block) rotate() {
 	}
 	b.p = p
 
-	b.moveRight(x)
+	b.moveRight(x, 100)
 	b.moveDown(y)
 }
