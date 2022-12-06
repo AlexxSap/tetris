@@ -24,10 +24,9 @@ func (gm *Game) listenKeyboard() {
 			gm.slideDown()
 			gm.addToTheBottom()
 		case keyboard.KeyArrowLeft:
-			gm.block.moveRight(-1, gm.columnCount)
-
+			gm.moveRightBlock(-1)
 		case keyboard.KeyArrowRight:
-			gm.block.moveRight(1, gm.columnCount)
+			gm.moveRightBlock(1)
 		case keyboard.KeyArrowUp:
 			gm.block.rotate()
 		}
@@ -48,13 +47,13 @@ func (gm *Game) addToTheBottom() bool {
 }
 
 func (gm *Game) isCurrentBlockAtTheBottom() bool {
-	gm.block.moveDown(1)
+	gm.moveDownBlock(1)
 	match, _ := gm.field.AnyOfPoints(
 		gm.block.iterator(),
 		func(val int) bool {
 			return val > 0
 		})
-	gm.block.moveDown(-1)
+	gm.moveDownBlock(-1)
 
 	if match {
 		return true
@@ -71,7 +70,7 @@ func (gm *Game) isCurrentBlockAtTheBottom() bool {
 
 func (gm *Game) slideDown() {
 	for !gm.isCurrentBlockAtTheBottom() {
-		gm.block.moveDown(1)
+		gm.moveDownBlock(1)
 		time.Sleep(250 * time.Millisecond)
 	}
 }
@@ -81,7 +80,7 @@ func (gm *Game) move(gameOverChanel chan<- bool) {
 	/// TODO del loop
 	for i := 0; i < 5; i++ {
 		gm.clearCurrentBlock()
-		gm.block.moveDown(1)
+		gm.moveDownBlock(1)
 		gm.drawCurrentBlock()
 		if gm.isCurrentBlockAtTheBottom() {
 			if !gm.addToTheBottom() {

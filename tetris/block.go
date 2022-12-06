@@ -44,28 +44,26 @@ func createBlocks() {
 
 func (gm *Game) genRandomBlock() {
 	rand.Seed(int64(time.Now().Nanosecond()))
-	b := blocks[rand.Intn(len(blocks))]
-	b.moveRight(gm.columnCount/2, gm.columnCount)
-	gm.block = b
+	gm.block = blocks[rand.Intn(len(blocks))]
+	gm.moveRightBlock(gm.columnCount / 2)
 }
 
-/// TODO не понятно как контролить выход за поле, пока добавил костыль
-func (b *Block) moveRight(offset, columnCount int) {
-	for i := 0; i < len(b.p); i++ {
-		newVal := b.p[i].Column + offset
-		if newVal <= 0 || newVal > columnCount+1 {
+func (gm *Game) moveRightBlock(offset int) {
+	for i := 0; i < len(gm.block.p); i++ {
+		newVal := gm.block.p[i].Column + offset
+		if newVal <= 0 || newVal > gm.columnCount+1 {
 			return
 		}
 	}
 
-	for i := 0; i < len(b.p); i++ {
-		b.p[i].Column += offset
+	for i := 0; i < len(gm.block.p); i++ {
+		gm.block.p[i].Column += offset
 	}
 }
 
-func (b *Block) moveDown(offset int) {
-	for i := 0; i < len(b.p); i++ {
-		b.p[i].Line += offset
+func (gm *Game) moveDownBlock(offset int) {
+	for i := 0; i < len(gm.block.p); i++ {
+		gm.block.p[i].Line += offset
 	}
 }
 
@@ -86,8 +84,14 @@ func (b *Block) rotate() {
 		}
 	}
 
+	moveDown := func(b *Block, val int) {
+		for i := 0; i < len(b.p); i++ {
+			b.p[i].Line += val
+		}
+	}
+
 	moveRight(b, -x)
-	b.moveDown(-y)
+	moveDown(b, -y)
 	m := matrix.NewMatrixFromPoints(b.iterator(), 666)
 	m.Rotate()
 
@@ -100,8 +104,11 @@ func (b *Block) rotate() {
 	for _, point := range points {
 		p = append(p, Point{point.Row, point.Column})
 	}
+
+	/// TODO при повороте фигура у края может заехать на границу
+
 	b.p = p
 
 	moveRight(b, x)
-	b.moveDown(y)
+	moveDown(b, y)
 }
