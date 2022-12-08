@@ -38,11 +38,11 @@ func (gm *Game) listenKeyboard() {
 
 func (gm *Game) addToTheBottom() bool {
 	/// TODO добавить тут задержки
-	// gm.addCurrentBlockToTheBottom()
-	// if rows := gm.rowsToDestroy(); len(rows) != 0 {
-	// 	gm.destroyRows(rows)
-	// }
-	// gm.genRandomBlock()
+	gm.addCurrentBlockToTheBottom()
+	if rows := gm.rowsToDestroy(); len(rows) != 0 {
+		gm.destroyRows(rows)
+	}
+	gm.genRandomBlock()
 	return !gm.isCurrentBlockAtTheBottom()
 }
 
@@ -75,10 +75,14 @@ func (gm *Game) slideDown() {
 	}
 }
 
+/// TODO cantAddCurrentBlock
+func (gm *Game) cantAddCurrentBlock() bool {
+	return false
+}
+
 func (gm *Game) move(gameOverChanel chan<- bool) {
 
-	/// TODO del loop
-	for i := 0; i < 5; i++ {
+	for {
 		gm.clearCurrentBlock()
 		gm.moveDownBlock(1)
 		gm.drawCurrentBlock()
@@ -90,11 +94,11 @@ func (gm *Game) move(gameOverChanel chan<- bool) {
 		} else {
 			time.Sleep(1 * time.Second)
 		}
-	}
 
-	/// TODO cantAddCurrentBlock
-	// if gm.cantAddCurrentBlock() {
-	gameOverChanel <- true
-	// }
+		if gm.cantAddCurrentBlock() {
+			gameOverChanel <- true
+			break
+		}
+	}
 
 }

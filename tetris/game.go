@@ -47,12 +47,6 @@ func newGame() *Game {
 	}
 }
 
-func (gm *Game) addBlock(block Block) {
-	for _, p := range block.p {
-		gm.field.Set(p.Line, p.Column, gm.currentStep)
-	}
-}
-
 func Start() {
 	if err := keyboard.Open(); err != nil {
 		panic(err)
