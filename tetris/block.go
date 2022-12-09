@@ -57,7 +57,6 @@ func (gm *Game) addCurrentBlockToTheBottom() {
 
 func (gm *Game) rowsToDestroy() []int {
 	res := make([]int, 0)
-
 	cmp := func(val int) bool { return val > 0 }
 	for row := 0; row < gm.rowCount; row++ {
 		match, err := gm.field.AllOfRow(row, cmp)
@@ -65,8 +64,13 @@ func (gm *Game) rowsToDestroy() []int {
 			res = append(res, row)
 		}
 	}
-
 	return res
+}
+
+func (gm *Game) destroyRows(rows []int) {
+	/// всем поставить -1
+	/// задержка
+	/// схлопнуть по условию
 }
 
 func (gm *Game) moveRightBlock(offset int) {
