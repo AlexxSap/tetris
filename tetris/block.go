@@ -44,7 +44,9 @@ func createBlocks() {
 
 func (gm *Game) genRandomBlock() {
 	rand.Seed(int64(time.Now().Nanosecond()))
-	gm.block = blocks[rand.Intn(len(blocks))]
+	block := blocks[rand.Intn(len(blocks))]
+	gm.block.p = make([]Point, len(block.p))
+	copy(gm.block.p, block.p)
 	gm.currentStep++
 	gm.moveRightBlock(gm.columnCount / 2)
 }

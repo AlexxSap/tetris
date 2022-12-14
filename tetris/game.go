@@ -1,6 +1,8 @@
 package tetris
 
 import (
+	"sync"
+
 	canvas "github.com/AlexxSap/SiDCo"
 	"github.com/AlexxSap/matrix"
 	"github.com/eiannone/keyboard"
@@ -16,6 +18,7 @@ type Game struct {
 	infoField      canvas.Canvas
 	isOver         bool
 	currentStep    int
+	moveMutex      sync.Mutex
 }
 
 func newGame() *Game {

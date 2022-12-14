@@ -22,7 +22,6 @@ func (gm *Game) listenKeyboard() {
 		switch key {
 		case keyboard.KeyArrowDown:
 			gm.slideDown()
-			gm.addToTheBottom()
 		case keyboard.KeyArrowLeft:
 			gm.moveRightBlock(-1)
 		case keyboard.KeyArrowRight:
@@ -36,11 +35,11 @@ func (gm *Game) listenKeyboard() {
 
 func (gm *Game) addToTheBottom() bool {
 	gm.addCurrentBlockToTheBottom()
-	time.Sleep(200 * time.Millisecond)
 	if rows := gm.rowsToDestroy(); len(rows) != 0 {
+		time.Sleep(100 * time.Millisecond)
 		gm.destroyRows(rows)
 	}
-	time.Sleep(200 * time.Millisecond)
+	time.Sleep(100 * time.Millisecond)
 	gm.genRandomBlock()
 	return !gm.isCurrentBlockAtTheBottom()
 }
@@ -69,9 +68,17 @@ func (gm *Game) isCurrentBlockAtTheBottom() bool {
 }
 
 func (gm *Game) slideDown() {
+	gm.moveMutex.Lock()
+	defer gm.moveMutex.Unlock()
+
+	gm.clearCurrentBlock()
 	for !gm.isCurrentBlockAtTheBottom() {
 		gm.moveDownBlock(1)
-		time.Sleep(250 * time.Millisecond)
+	}
+	gm.drawCurrentBlock()
+
+	if !gm.addToTheBottom() {
+		gm.isOver = true
 	}
 }
 
@@ -82,7 +89,15 @@ func (gm *Game) cantAddCurrentBlock() bool {
 
 func (gm *Game) move(gameOverChanel chan<- bool) {
 
+	defer gm.moveMutex.Unlock()
 	for {
+		gm.moveMutex.Lock()
+
+		if gm.isOver {
+			gameOverChanel <- true
+			return
+		}
+
 		gm.clearCurrentBlock()
 		gm.moveDownBlock(1)
 		gm.drawCurrentBlock()
@@ -91,9 +106,10 @@ func (gm *Game) move(gameOverChanel chan<- bool) {
 				gameOverChanel <- true
 				return
 			}
-		} else {
-			time.Sleep(1 * time.Second)
 		}
+
+		gm.moveMutex.Unlock()
+		time.Sleep(1 * time.Second)
 
 		if gm.cantAddCurrentBlock() {
 			gameOverChanel <- true
