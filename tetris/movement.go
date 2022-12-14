@@ -35,6 +35,7 @@ func (gm *Game) listenKeyboard() {
 
 func (gm *Game) addToTheBottom() bool {
 	gm.addCurrentBlockToTheBottom()
+
 	if rows := gm.rowsToDestroy(); len(rows) != 0 {
 		time.Sleep(100 * time.Millisecond)
 		gm.destroyRows(rows)
@@ -67,6 +68,9 @@ func (gm *Game) isCurrentBlockAtTheBottom() bool {
 	return false
 }
 
+// TODO как-то текущий блок после падения перетирает уже лежащий на дне
+// попробовать после блокировки мьютекса в move проверять была ли вызвана
+// slideDown.
 func (gm *Game) slideDown() {
 	gm.moveMutex.Lock()
 	defer gm.moveMutex.Unlock()
