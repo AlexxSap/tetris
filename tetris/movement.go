@@ -34,19 +34,19 @@ func (gm *Game) listenKeyboard() {
 	}
 }
 
-/// TODO добавить в матрицу удаление строк со здвигом
-
 func (gm *Game) addToTheBottom() bool {
-	/// TODO добавить тут задержки
 	gm.addCurrentBlockToTheBottom()
+	time.Sleep(200 * time.Millisecond)
 	if rows := gm.rowsToDestroy(); len(rows) != 0 {
 		gm.destroyRows(rows)
 	}
+	time.Sleep(200 * time.Millisecond)
 	gm.genRandomBlock()
 	return !gm.isCurrentBlockAtTheBottom()
 }
 
 func (gm *Game) isCurrentBlockAtTheBottom() bool {
+	/// проверяем, что не наткнулись на другую фигуру
 	gm.moveDownBlock(1)
 	match, _ := gm.field.AnyOfPoints(
 		gm.block.iterator(),
@@ -60,7 +60,7 @@ func (gm *Game) isCurrentBlockAtTheBottom() bool {
 	}
 
 	for _, p := range gm.block.p {
-		if p.Line == gm.rowCount-1 {
+		if p.Line == gm.rowCount {
 			return true
 		}
 	}
@@ -75,7 +75,7 @@ func (gm *Game) slideDown() {
 	}
 }
 
-/// TODO cantAddCurrentBlock
+// / TODO cantAddCurrentBlock
 func (gm *Game) cantAddCurrentBlock() bool {
 	return false
 }
