@@ -22,8 +22,8 @@ type Game struct {
 }
 
 func newGame() *Game {
-	rowCount := 15
-	columnCount := 10
+	rowCount := 16
+	columnCount := 11
 
 	createBlocks()
 
@@ -34,13 +34,13 @@ func newGame() *Game {
 		panic(err)
 	}
 
-	blocksField, _ := canvas.NewCanvas(canvas.Point{Line: 1, Column: 10}, canvas.Point{Line: rowCount + 1, Column: columnCount + 1})
+	blocksField, _ := canvas.NewCanvas(canvas.Point{Line: 1, Column: 10}, canvas.Point{Line: rowCount, Column: columnCount})
 	nextBlockField, _ := canvas.NewCanvas(canvas.Point{Line: 1, Column: 25}, canvas.Point{Line: 5, Column: 10})
 	infoField, _ := canvas.NewCanvas(canvas.Point{Line: 7, Column: 25}, canvas.Point{Line: 10, Column: 10})
 
 	return &Game{
-		rowCount:       rowCount,
-		columnCount:    columnCount,
+		rowCount:       rowCount - 1,
+		columnCount:    columnCount - 1,
 		field:          m,
 		blocksField:    blocksField,
 		nextBlockField: nextBlockField,

@@ -46,6 +46,12 @@ func (gm *Game) addToTheBottom() bool {
 }
 
 func (gm *Game) isCurrentBlockAtTheBottom() bool {
+	for _, p := range gm.block.p {
+		if p.Line == gm.rowCount {
+			return true
+		}
+	}
+
 	/// проверяем, что не наткнулись на другую фигуру
 	gm.moveDownBlock(1)
 	match, _ := gm.field.AnyOfPoints(
@@ -55,22 +61,9 @@ func (gm *Game) isCurrentBlockAtTheBottom() bool {
 		})
 	gm.moveDownBlock(-1)
 
-	if match {
-		return true
-	}
-
-	for _, p := range gm.block.p {
-		if p.Line == gm.rowCount {
-			return true
-		}
-	}
-
-	return false
+	return match
 }
 
-// TODO как-то текущий блок после падения перетирает уже лежащий на дне
-// попробовать после блокировки мьютекса в move проверять была ли вызвана
-// slideDown.
 func (gm *Game) slideDown() {
 	gm.moveMutex.Lock()
 	defer gm.moveMutex.Unlock()
@@ -84,11 +77,6 @@ func (gm *Game) slideDown() {
 	if !gm.addToTheBottom() {
 		gm.isOver = true
 	}
-}
-
-// / TODO cantAddCurrentBlock
-func (gm *Game) cantAddCurrentBlock() bool {
-	return false
 }
 
 func (gm *Game) move(gameOverChanel chan<- bool) {
@@ -114,11 +102,6 @@ func (gm *Game) move(gameOverChanel chan<- bool) {
 
 		gm.moveMutex.Unlock()
 		time.Sleep(1 * time.Second)
-
-		if gm.cantAddCurrentBlock() {
-			gameOverChanel <- true
-			break
-		}
 	}
 
 }
