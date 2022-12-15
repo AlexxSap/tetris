@@ -48,7 +48,7 @@ func (gm *Game) genRandomBlock() {
 	gm.block.p = make([]Point, len(block.p))
 	copy(gm.block.p, block.p)
 	gm.currentStep++
-	gm.moveRightBlock(gm.columnCount / 2)
+	gm.moveBlockRightWithOffset(gm.columnCount / 2)
 }
 
 func (gm *Game) addCurrentBlockToTheBottom() {
@@ -75,14 +75,39 @@ func (gm *Game) destroyRows(rows []int) {
 	/// схлопнуть по условию
 }
 
-func (gm *Game) moveRightBlock(offset int) {
+func (gm *Game) canMoveRight(offset int) bool {
 	for i := 0; i < len(gm.block.p); i++ {
 		newVal := gm.block.p[i].Column + offset
 		if newVal <= 0 || newVal > gm.columnCount {
-			return
+			return false
 		}
 	}
 
+	gm.moveBlockRightWithOffset(offset)
+	match, _ := gm.field.AnyOfPoints(
+		gm.block.iterator(),
+		func(val int) bool {
+			return val > 0
+		})
+
+	gm.moveBlockRightWithOffset(-offset)
+
+	return !match
+}
+
+func (gm *Game) moveBlockLeft() {
+	if gm.canMoveRight(-1) {
+		gm.moveBlockRightWithOffset(-1)
+	}
+}
+
+func (gm *Game) moveBlockRight() {
+	if gm.canMoveRight(1) {
+		gm.moveBlockRightWithOffset(1)
+	}
+}
+
+func (gm *Game) moveBlockRightWithOffset(offset int) {
 	for i := 0; i < len(gm.block.p); i++ {
 		gm.block.p[i].Column += offset
 	}
