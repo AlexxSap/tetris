@@ -78,7 +78,7 @@ func (gm *Game) destroyRows(rows []int) {
 func (gm *Game) moveRightBlock(offset int) {
 	for i := 0; i < len(gm.block.p); i++ {
 		newVal := gm.block.p[i].Column + offset
-		if newVal <= 0 || newVal > gm.columnCount+1 {
+		if newVal <= 0 || newVal > gm.columnCount {
 			return
 		}
 	}

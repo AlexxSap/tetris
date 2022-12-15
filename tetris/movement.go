@@ -23,11 +23,14 @@ func (gm *Game) listenKeyboard() {
 		case keyboard.KeyArrowDown:
 			gm.slideDown()
 		case keyboard.KeyArrowLeft:
+			// TODO нет проверки на то, что такое движение не перетрёт уже стоящие фигуры
 			gm.moveRightBlock(-1)
 		case keyboard.KeyArrowRight:
 			gm.moveRightBlock(1)
 		case keyboard.KeyArrowUp:
 			gm.block.rotate()
+		case keyboard.KeyEsc:
+			gm.isOver = true
 		}
 		gm.drawCurrentBlock()
 	}
