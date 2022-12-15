@@ -27,7 +27,7 @@ func (gm *Game) listenKeyboard() {
 		case keyboard.KeyArrowRight:
 			gm.moveBlockRight()
 		case keyboard.KeyArrowUp:
-			gm.block.rotate()
+			gm.rotate()
 		case keyboard.KeyEsc:
 			gm.isOver = true
 		}

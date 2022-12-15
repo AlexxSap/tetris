@@ -127,8 +127,13 @@ func (b *Block) offsets() (int, int) {
 	return col, row
 }
 
-func (b *Block) rotate() {
-	x, y := b.offsets()
+func (gm *Game) rotate() {
+
+	var tempBlock Block
+	tempBlock.p = make([]Point, len(gm.block.p))
+	copy(tempBlock.p, gm.block.p)
+
+	x, y := tempBlock.offsets()
 
 	moveRight := func(b *Block, val int) {
 		for i := 0; i < len(b.p); i++ {
@@ -142,9 +147,9 @@ func (b *Block) rotate() {
 		}
 	}
 
-	moveRight(b, -x)
-	moveDown(b, -y)
-	m := matrix.NewMatrixFromPoints(b.iterator(), 666)
+	moveRight(&tempBlock, -x)
+	moveDown(&tempBlock, -y)
+	m := matrix.NewMatrixFromPoints(tempBlock.iterator(), 666)
 	m.Rotate()
 
 	points, err := m.Filtered(func(cell int) bool { return cell == 666 })
@@ -154,13 +159,17 @@ func (b *Block) rotate() {
 
 	p := make([]Point, 0, len(points))
 	for _, point := range points {
+		if point.Column+x > gm.columnCount {
+			return
+		}
+
 		p = append(p, Point{point.Row, point.Column})
 	}
 
-	/// TODO при повороте фигура у края может заехать на границу
+	copy(tempBlock.p, p)
+	moveRight(&tempBlock, x)
+	moveDown(&tempBlock, y)
 
-	b.p = p
+	copy(gm.block.p, tempBlock.p)
 
-	moveRight(b, x)
-	moveDown(b, y)
 }
