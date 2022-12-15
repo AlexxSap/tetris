@@ -48,6 +48,7 @@ func (gm *Game) genRandomBlock() {
 	gm.block.p = make([]Point, len(block.p))
 	copy(gm.block.p, block.p)
 	gm.currentStep++
+	gm.moveDownBlock(1)
 	gm.moveBlockRightWithOffset(gm.columnCount / 2)
 }
 

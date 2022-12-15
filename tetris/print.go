@@ -22,7 +22,6 @@ func (gm *Game) drawBoxes() {
 }
 
 func (gm *Game) clearCurrentBlock() {
-	/// TODO стирается верхушка поля
 	points := gm.block.canvasPoints()
 	if len(points) != 0 {
 		gm.blocksField.DrawPath(empty, points)
