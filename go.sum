@@ -1,9 +1,7 @@
 github.com/AlexxSap/SiDCo v1.1.0 h1:fjydVdjCYUZdNUCbNVfuTX4vfspTezHC+PyAYARpAuM=
 github.com/AlexxSap/SiDCo v1.1.0/go.mod h1:/fo1id1gzHxxGem0pT81hK5TgEwzuUZJVeuHOKSu28Q=
-github.com/AlexxSap/matrix v1.2.1 h1:JoEiKye6M/4sWWslKsgEVg0FzGnyxizCoJsPC0Z5Gkw=
-github.com/AlexxSap/matrix v1.2.1/go.mod h1:yy2wiqNBdKIs5Y/rhVxvidleJz78zd8RJVAMQm94cxc=
-github.com/AlexxSap/matrix v1.2.2-0.20221204181741-ce574f89de3c h1:lxI+MbQy6HGB+aPQydYAnzLrva7mE2AiVB4LrIb0G8Q=
-github.com/AlexxSap/matrix v1.2.2-0.20221204181741-ce574f89de3c/go.mod h1:yy2wiqNBdKIs5Y/rhVxvidleJz78zd8RJVAMQm94cxc=
+github.com/AlexxSap/matrix v1.3.0 h1:v6/+Z4EYkiAjwhOETXnvn1756+QF6mCCWHhqkq/Tglw=
+github.com/AlexxSap/matrix v1.3.0/go.mod h1:yy2wiqNBdKIs5Y/rhVxvidleJz78zd8RJVAMQm94cxc=
 github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203 h1:XBBHcIb256gUJtLmY22n99HaZTz+r2Z51xUPi01m3wg=
 github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203/go.mod h1:E1jcSv8FaEny+OP/5k9UxZVw9YFWGj7eI4KR/iOBqCg=
 golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a h1:dGzPydgVsqGcTRVwiLJ1jVbufYwmzD3LfVPLKsKg+0k=
