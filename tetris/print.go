@@ -45,6 +45,8 @@ func (gm *Game) repaintAllBlocks() {
 
 }
 
+/// TODO походу repaint, repaintAllBlocks и needRepaintAllBlocks можно удалить
+
 func (gm *Game) repaint() {
 	repaintTime := 200
 
