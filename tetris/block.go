@@ -136,6 +136,7 @@ func (gm *Game) rotate() {
 
 	x, y := tempBlock.offsets()
 
+	// TODO вынести moveRight и moveDown отсюда
 	moveRight := func(b *Block, val int) {
 		for i := 0; i < len(b.p); i++ {
 			b.p[i].Column += val
