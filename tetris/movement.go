@@ -55,13 +55,13 @@ func (gm *Game) isCurrentBlockAtTheBottom() bool {
 	}
 
 	/// проверяем, что не наткнулись на другую фигуру
-	gm.moveDownBlock(1)
+	gm.block.moveDownBy(1)
 	match, _ := gm.field.AnyOfPoints(
 		gm.block.iterator(),
 		func(val int) bool {
 			return val > 0
 		})
-	gm.moveDownBlock(-1)
+	gm.block.moveDownBy(-1)
 
 	return match
 }
@@ -72,7 +72,7 @@ func (gm *Game) slideDown() {
 
 	gm.clearCurrentBlock()
 	for !gm.isCurrentBlockAtTheBottom() {
-		gm.moveDownBlock(1)
+		gm.block.moveDownBy(1)
 	}
 	gm.drawCurrentBlock()
 
@@ -93,7 +93,7 @@ func (gm *Game) move(gameOverChanel chan<- bool) {
 		}
 
 		gm.clearCurrentBlock()
-		gm.moveDownBlock(1)
+		gm.block.moveDownBy(1)
 		gm.drawCurrentBlock()
 		if gm.isCurrentBlockAtTheBottom() {
 			if !gm.addToTheBottom() {

@@ -48,8 +48,8 @@ func (gm *Game) genRandomBlock() {
 	gm.block.p = make([]Point, len(block.p))
 	copy(gm.block.p, block.p)
 	gm.currentStep++
-	gm.moveDownBlock(1)
-	gm.moveBlockRightWithOffset(gm.columnCount / 2)
+	gm.block.moveDownBy(1)
+	gm.block.moveRightBy(gm.columnCount / 2)
 }
 
 func (gm *Game) addCurrentBlockToTheBottom() {
@@ -84,39 +84,39 @@ func (gm *Game) canMoveRight(offset int) bool {
 		}
 	}
 
-	gm.moveBlockRightWithOffset(offset)
+	gm.block.moveRightBy(offset)
 	match, _ := gm.field.AnyOfPoints(
 		gm.block.iterator(),
 		func(val int) bool {
 			return val > 0
 		})
 
-	gm.moveBlockRightWithOffset(-offset)
+	gm.block.moveRightBy(-offset)
 
 	return !match
 }
 
 func (gm *Game) moveBlockLeft() {
 	if gm.canMoveRight(-1) {
-		gm.moveBlockRightWithOffset(-1)
+		gm.block.moveRightBy(-1)
 	}
 }
 
 func (gm *Game) moveBlockRight() {
 	if gm.canMoveRight(1) {
-		gm.moveBlockRightWithOffset(1)
+		gm.block.moveRightBy(1)
 	}
 }
 
-func (gm *Game) moveBlockRightWithOffset(offset int) {
-	for i := 0; i < len(gm.block.p); i++ {
-		gm.block.p[i].Column += offset
+func (b *Block) moveRightBy(offset int) {
+	for i := 0; i < len(b.p); i++ {
+		b.p[i].Column += offset
 	}
 }
 
-func (gm *Game) moveDownBlock(offset int) {
-	for i := 0; i < len(gm.block.p); i++ {
-		gm.block.p[i].Line += offset
+func (b *Block) moveDownBy(offset int) {
+	for i := 0; i < len(b.p); i++ {
+		b.p[i].Line += offset
 	}
 }
 
@@ -136,21 +136,8 @@ func (gm *Game) rotate() {
 
 	x, y := tempBlock.offsets()
 
-	// TODO вынести moveRight и moveDown отсюда
-	moveRight := func(b *Block, val int) {
-		for i := 0; i < len(b.p); i++ {
-			b.p[i].Column += val
-		}
-	}
-
-	moveDown := func(b *Block, val int) {
-		for i := 0; i < len(b.p); i++ {
-			b.p[i].Line += val
-		}
-	}
-
-	moveRight(&tempBlock, -x)
-	moveDown(&tempBlock, -y)
+	tempBlock.moveRightBy(-x)
+	tempBlock.moveDownBy(-y)
 	m := matrix.NewMatrixFromPoints(tempBlock.iterator(), 666)
 	m.Rotate()
 
@@ -169,8 +156,8 @@ func (gm *Game) rotate() {
 	}
 
 	copy(tempBlock.p, p)
-	moveRight(&tempBlock, x)
-	moveDown(&tempBlock, y)
+	tempBlock.moveRightBy(x)
+	tempBlock.moveDownBy(y)
 
 	copy(gm.block.p, tempBlock.p)
 

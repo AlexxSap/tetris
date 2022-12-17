@@ -68,7 +68,6 @@ func Start() {
 	game.genRandomBlock()
 
 	go game.listenKeyboard()
-	go game.repaint()
 	go game.move(gameOverChanel)
 
 	<-gameOverChanel

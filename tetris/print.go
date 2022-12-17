@@ -1,8 +1,6 @@
 package tetris
 
 import (
-	"time"
-
 	canvas "github.com/AlexxSap/SiDCo"
 )
 
@@ -37,37 +35,6 @@ func (gm *Game) drawCurrentBlock() {
 	}
 }
 
-func (gm *Game) needRepaintAllBlocks() bool {
-	return false
-}
-
 func (gm *Game) repaintAllBlocks() {
 
-}
-
-/// TODO походу repaint, repaintAllBlocks и needRepaintAllBlocks можно удалить
-
-func (gm *Game) repaint() {
-	repaintTime := 200
-
-	var ticker *time.Timer
-	resetTiker := func() {
-		ticker = time.NewTimer(time.Millisecond * time.Duration(repaintTime))
-	}
-
-	resetTiker()
-
-	for {
-		if gm.needRepaintAllBlocks() {
-			time.Sleep(time.Duration(repaintTime/3) * time.Millisecond)
-			gm.repaintAllBlocks()
-		}
-
-		if gm.isOver {
-			break
-		}
-
-		<-ticker.C
-		resetTiker()
-	}
 }
