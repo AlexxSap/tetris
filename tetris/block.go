@@ -1,6 +1,7 @@
 package tetris
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -58,6 +59,7 @@ func (gm *Game) addCurrentBlockToTheBottom() {
 	}
 }
 
+// TODO нужно как-то выбрасывать последнюю колонку. В неё нельзя поставить блок и условие проверки не срабатывает.
 func (gm *Game) rowsToDestroy() []int {
 	res := make([]int, 0)
 	cmp := func(val int) bool { return val > 0 }
@@ -67,13 +69,19 @@ func (gm *Game) rowsToDestroy() []int {
 			res = append(res, row)
 		}
 	}
+	fmt.Println(res)
 	return res
 }
 
 func (gm *Game) destroyRows(rows []int) {
-	/// всем поставить -1
-	/// задержка
-	/// схлопнуть по условию
+	for _, row := range rows {
+		err := gm.field.RemoveRow(row)
+		if err != nil {
+			panic(err)
+		}
+		time.Sleep(100 * time.Millisecond)
+		gm.repaintAllBlocks()
+	}
 }
 
 func (gm *Game) canMoveRight(offset int) bool {
