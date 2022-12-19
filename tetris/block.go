@@ -1,7 +1,6 @@
 package tetris
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 
@@ -33,10 +32,10 @@ var blocks map[int]Block
 
 func createBlocks() {
 	blocks = map[int]Block{
+		0: NewBlock([]Point{{0, 0}, {1, 0}, {2, 0}, {3, 0}}),
 		1: NewBlock([]Point{{0, 0}, {0, 1}, {1, 0}, {1, 1}}),
-		2: NewBlock([]Point{{0, 0}, {1, 0}, {2, 0}, {3, 0}}),
-		3: NewBlock([]Point{{0, 0}, {1, 0}, {2, 0}, {2, 1}}),
-		0: NewBlock([]Point{{0, 0}, {0, 1}, {1, 1}, {1, 2}}),
+		2: NewBlock([]Point{{0, 0}, {1, 0}, {2, 0}, {2, 1}}),
+		3: NewBlock([]Point{{0, 0}, {0, 1}, {1, 1}, {1, 2}}),
 		4: NewBlock([]Point{{0, 1}, {1, 1}, {1, 0}, {2, 1}}),
 		5: NewBlock([]Point{{0, 1}, {1, 0}, {1, 1}, {2, 1}}),
 		6: NewBlock([]Point{{0, 1}, {1, 1}, {2, 1}, {2, 0}}),
@@ -59,17 +58,21 @@ func (gm *Game) addCurrentBlockToTheBottom() {
 	}
 }
 
-// TODO нужно как-то выбрасывать последнюю колонку. В неё нельзя поставить блок и условие проверки не срабатывает.
 func (gm *Game) rowsToDestroy() []int {
 	res := make([]int, 0)
-	cmp := func(val int) bool { return val > 0 }
-	for row := 0; row < gm.rowCount; row++ {
-		match, err := gm.field.AllOfRow(row, cmp)
-		if err != nil && match {
+	for row := 0; row <= gm.rowCount; row++ {
+		zeroFounded := false
+		for col := 1; col <= gm.columnCount; col++ {
+			val, _ := gm.field.Get(row, col)
+			if val == 0 {
+				zeroFounded = true
+				break
+			}
+		}
+		if !zeroFounded {
 			res = append(res, row)
 		}
 	}
-	fmt.Println(res)
 	return res
 }
 

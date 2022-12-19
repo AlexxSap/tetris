@@ -36,5 +36,14 @@ func (gm *Game) drawCurrentBlock() {
 }
 
 func (gm *Game) repaintAllBlocks() {
+	gm.blocksField.ClearInner()
 
+	for row := 0; row <= gm.rowCount; row++ {
+		for col := 1; col <= gm.columnCount; col++ {
+			val, _ := gm.field.Get(row, col)
+			if val > 0 {
+				gm.blocksField.DrawColoredText(block, canvas.Point{Line: row, Column: col}, colorByValue(val))
+			}
+		}
+	}
 }
