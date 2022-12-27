@@ -43,6 +43,7 @@ func (gm *Game) addToTheBottom() bool {
 		gm.destroyRows(rows)
 	}
 	time.Sleep(100 * time.Millisecond)
+	gm.printInfo()
 	gm.genRandomBlock()
 	return !gm.isCurrentBlockAtTheBottom()
 }

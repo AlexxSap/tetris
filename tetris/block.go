@@ -91,6 +91,7 @@ func (gm *Game) destroyRows(rows []int) {
 		}
 		time.Sleep(100 * time.Millisecond)
 		gm.repaintAllBlocks()
+		gm.score += 10
 	}
 }
 

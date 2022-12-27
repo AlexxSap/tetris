@@ -1,6 +1,8 @@
 package tetris
 
 import (
+	"strconv"
+
 	canvas "github.com/AlexxSap/SiDCo"
 )
 
@@ -24,6 +26,13 @@ func (gm *Game) clearCurrentBlock() {
 	if len(points) != 0 {
 		gm.blocksField.DrawPath(empty, points)
 	}
+}
+
+func (gm *Game) printInfo() {
+	gm.infoField.ClearInner()
+	gm.infoField.DrawText("level: "+strconv.Itoa(gm.currentStep), canvas.Point{Line: 1, Column: 1})
+	gm.infoField.DrawText("score: "+strconv.Itoa(gm.score), canvas.Point{Line: 2, Column: 1})
+
 }
 
 func (gm *Game) printNexBlock() {

@@ -18,6 +18,7 @@ type Game struct {
 	infoField      canvas.Canvas
 	isOver         bool
 	currentStep    int
+	score          int
 	moveMutex      sync.Mutex
 	nextBlock      int
 }
@@ -36,8 +37,8 @@ func newGame() *Game {
 	}
 
 	blocksField, _ := canvas.NewCanvas(canvas.Point{Line: 1, Column: 10}, canvas.Point{Line: rowCount, Column: columnCount - 1})
-	nextBlockField, _ := canvas.NewCanvas(canvas.Point{Line: 1, Column: 25}, canvas.Point{Line: 5, Column: 10})
-	infoField, _ := canvas.NewCanvas(canvas.Point{Line: 7, Column: 25}, canvas.Point{Line: 10, Column: 10})
+	nextBlockField, _ := canvas.NewCanvas(canvas.Point{Line: 1, Column: 23}, canvas.Point{Line: 5, Column: 10})
+	infoField, _ := canvas.NewCanvas(canvas.Point{Line: 7, Column: 23}, canvas.Point{Line: 4, Column: 10})
 
 	return &Game{
 		rowCount:       rowCount - 1,
@@ -49,6 +50,7 @@ func newGame() *Game {
 		isOver:         false,
 		currentStep:    1,
 		nextBlock:      -1,
+		score:          0,
 	}
 }
 
@@ -68,6 +70,7 @@ func Start() {
 	game.drawBoxes()
 
 	game.genRandomBlock()
+	game.printInfo()
 
 	go game.listenKeyboard()
 	go game.move(gameOverChanel)
