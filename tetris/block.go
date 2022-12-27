@@ -44,12 +44,19 @@ func createBlocks() {
 
 func (gm *Game) genRandomBlock() {
 	rand.Seed(int64(time.Now().Nanosecond()))
-	block := blocks[rand.Intn(len(blocks))]
+
+	if gm.nextBlock == -1 {
+		gm.nextBlock = rand.Intn(len(blocks))
+	}
+
+	block := blocks[gm.nextBlock]
+	gm.nextBlock = rand.Intn(len(blocks))
 	gm.block.p = make([]Point, len(block.p))
 	copy(gm.block.p, block.p)
 	gm.currentStep++
 	gm.block.moveDownBy(1)
 	gm.block.moveRightBy(gm.columnCount / 2)
+	gm.printNexBlock()
 }
 
 func (gm *Game) addCurrentBlockToTheBottom() {

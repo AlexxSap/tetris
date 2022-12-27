@@ -26,6 +26,23 @@ func (gm *Game) clearCurrentBlock() {
 	}
 }
 
+func (gm *Game) printNexBlock() {
+	if gm.nextBlock == -1 {
+		return
+	}
+
+	var b Block
+	b.p = make([]Point, len(blocks[gm.nextBlock].p))
+	copy(b.p, blocks[gm.nextBlock].p)
+	b.moveDownBy(1)
+	b.moveRightBy(gm.nextBlockField.Size().Column / 2)
+
+	gm.nextBlockField.ClearInner()
+	gm.nextBlockField.SetColor(colorByValue(gm.currentStep + 1))
+	gm.nextBlockField.DrawPath(block, b.canvasPoints())
+	gm.nextBlockField.SetDefaultColor()
+}
+
 func (gm *Game) drawCurrentBlock() {
 	points := gm.block.canvasPoints()
 	if len(points) != 0 {

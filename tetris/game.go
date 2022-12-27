@@ -19,6 +19,7 @@ type Game struct {
 	isOver         bool
 	currentStep    int
 	moveMutex      sync.Mutex
+	nextBlock      int
 }
 
 func newGame() *Game {
@@ -47,6 +48,7 @@ func newGame() *Game {
 		infoField:      infoField,
 		isOver:         false,
 		currentStep:    1,
+		nextBlock:      -1,
 	}
 }
 
