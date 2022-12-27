@@ -77,5 +77,6 @@ func Start() {
 
 	<-gameOverChanel
 	game.isOver = true
+	game.printGameOver()
 
 }

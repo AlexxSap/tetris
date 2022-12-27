@@ -28,6 +28,12 @@ func (gm *Game) clearCurrentBlock() {
 	}
 }
 
+func (gm *Game) printGameOver() {
+	for r := 3; r < gm.blocksField.Size().Line-2; r++ {
+		gm.blocksField.DrawColoredText("<===GAME OVER===>", canvas.Point{Line: r, Column: 3}, colorByValue(r))
+	}
+}
+
 func (gm *Game) printInfo() {
 	gm.infoField.ClearInner()
 	gm.infoField.DrawText("level: "+strconv.Itoa(gm.currentStep), canvas.Point{Line: 1, Column: 1})
